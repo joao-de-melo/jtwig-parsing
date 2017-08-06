@@ -3,6 +3,7 @@ package org.jtwig.parsing.transform;
 import java.util.List;
 
 public class ListTransformationRequest {
+    private final int
     private final List<Object> values;
 
     public ListTransformationRequest(List<Object> values) {
@@ -15,5 +16,9 @@ public class ListTransformationRequest {
 
     public int size () {
         return values.size();
+    }
+
+    public List<Object> getValues() {
+        return values;
     }
 }

@@ -1,8 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class DisjunctiveSequenceMatcher implements SequenceMatcher {
@@ -22,14 +19,5 @@ public class DisjunctiveSequenceMatcher implements SequenceMatcher {
         }
 
         return SequenceMatcherResult.mismatch();
-    }
-
-    @Override
-    public Explanation explain() {
-        ArrayList<Explanation> explanations = new ArrayList<>();
-        for (SequenceMatcher sequenceMatcher : sequenceMatcherList) {
-            explanations.add(sequenceMatcher.explain());
-        }
-        return new Explanation("alternatives", explanations);
     }
 }

@@ -1,9 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
-
-import java.util.Collections;
-
 public class MandatorySequenceMatcher implements SequenceMatcher {
     private final SequenceMatcher delegate;
 
@@ -19,10 +15,5 @@ public class MandatorySequenceMatcher implements SequenceMatcher {
             return SequenceMatcherResult.error(sequenceMatcherRequest);
         }
         return result;
-    }
-
-    @Override
-    public Explanation explain() {
-        return new Explanation("mandatory", Collections.singletonList(delegate.explain()));
     }
 }

@@ -51,8 +51,8 @@ public class SequenceMatchers {
         return new NotSequenceMatcher(sequenceMatcher);
     }
 
-    public static <T> TransformSequenceMatcher<T> transform (SequenceMatcher sequenceMatcher, Transformation<T> transform) {
-        return new TransformSequenceMatcher<>(sequenceMatcher, transform);
+    public static <T> TransformSequenceMatcher transform (SequenceMatcher sequenceMatcher, Transformation transform) {
+        return new TransformSequenceMatcher(sequenceMatcher, transform);
     }
 
     public static FlattenSequenceMatcher flatten (SequenceMatcher sequenceMatcher) {

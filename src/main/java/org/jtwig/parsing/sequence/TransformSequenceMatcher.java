@@ -1,13 +1,12 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
 import org.jtwig.parsing.transform.Transformation;
 
-public class TransformSequenceMatcher<O> implements SequenceMatcher {
+public class TransformSequenceMatcher implements SequenceMatcher {
     private final SequenceMatcher sequenceMatcher;
-    private final Transformation<O> transformation;
+    private final Transformation transformation;
 
-    public TransformSequenceMatcher(SequenceMatcher sequenceMatcher, Transformation<O> transformation) {
+    public TransformSequenceMatcher(SequenceMatcher sequenceMatcher, Transformation transformation) {
         this.sequenceMatcher = sequenceMatcher;
         this.transformation = transformation;
     }
@@ -17,14 +16,9 @@ public class TransformSequenceMatcher<O> implements SequenceMatcher {
         SequenceMatcherResult result = sequenceMatcher.matches(sequenceMatcherRequest);
 
         if (result.matched()) {
-            return SequenceMatcherResult.match(result.getJump(), transformation.transform(result.getNode().get()));
+            return SequenceMatcherResult.match(result.getJump(), transformation.transform(result.getMatchResult().get()));
         }
 
         return result;
-    }
-
-    @Override
-    public Explanation explain() {
-        return sequenceMatcher.explain();
     }
 }

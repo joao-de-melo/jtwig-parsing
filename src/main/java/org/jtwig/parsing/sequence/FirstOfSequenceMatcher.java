@@ -1,8 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class FirstOfSequenceMatcher implements SequenceMatcher {
@@ -10,15 +7,6 @@ public class FirstOfSequenceMatcher implements SequenceMatcher {
 
     public FirstOfSequenceMatcher(List<SequenceMatcher> sequenceMatchers) {
         this.sequenceMatchers = sequenceMatchers;
-    }
-
-    @Override
-    public Explanation explain() {
-        List<Explanation> explanations = new ArrayList<>();
-        for (SequenceMatcher matcher : sequenceMatchers) {
-            explanations.add(matcher.explain());
-        }
-        return new Explanation("first of", explanations);
     }
 
     @Override

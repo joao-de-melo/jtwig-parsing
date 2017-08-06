@@ -1,8 +1,5 @@
 package org.jtwig.parsing.character;
 
-import org.jtwig.parsing.explain.Explanation;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrCharacterMatcher implements CharacterMatcher {
@@ -19,14 +16,5 @@ public class OrCharacterMatcher implements CharacterMatcher {
         }
 
         return false;
-    }
-
-    @Override
-    public Explanation explain() {
-        ArrayList<Explanation> explanations = new ArrayList<>();
-        for (CharacterMatcher option : options) {
-            explanations.add(option.explain());
-        }
-        return new Explanation("or", explanations);
     }
 }

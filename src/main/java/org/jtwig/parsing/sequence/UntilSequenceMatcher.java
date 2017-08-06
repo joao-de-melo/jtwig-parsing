@@ -1,19 +1,10 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
-
-import java.util.Collections;
-
 public class UntilSequenceMatcher implements SequenceMatcher {
     private final SequenceMatcher sequenceMatcher;
 
     public UntilSequenceMatcher(SequenceMatcher sequenceMatcher) {
         this.sequenceMatcher = sequenceMatcher;
-    }
-
-    @Override
-    public Explanation explain() {
-        return new Explanation("until", Collections.singletonList(sequenceMatcher.explain()));
     }
 
     @Override

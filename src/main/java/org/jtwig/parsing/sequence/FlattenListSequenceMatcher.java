@@ -1,6 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
 import org.jtwig.parsing.tree.ListNode;
 import org.jtwig.parsing.tree.Node;
 
@@ -22,7 +21,7 @@ public class FlattenListSequenceMatcher implements SequenceMatcher {
         SequenceMatcherResult result = matcher.matches(sequenceMatcherRequest);
 
         if (result.matched()) {
-            Node node = result.getNode().get();
+            Node node = result.getMatchResult().get();
             return SequenceMatcherResult.match(result.getJump(), new ListNode(flatten(node, depth)));
         }
         return result;
@@ -42,10 +41,5 @@ public class FlattenListSequenceMatcher implements SequenceMatcher {
         }
 
         return result;
-    }
-
-    @Override
-    public Explanation explain() {
-        return matcher.explain();
     }
 }

@@ -1,7 +1,6 @@
 package org.jtwig.parsing.sequence;
 
 import org.jtwig.parsing.character.WhiteSpaceCharacterMatcher;
-import org.jtwig.parsing.explain.Explanation;
 
 public class SkipWhiteSpacesSequenceMatcher implements SequenceMatcher {
     private final WhiteSpaceCharacterMatcher whiteSpaceCharacterMatcher;
@@ -10,11 +9,6 @@ public class SkipWhiteSpacesSequenceMatcher implements SequenceMatcher {
     public SkipWhiteSpacesSequenceMatcher(WhiteSpaceCharacterMatcher whiteSpaceCharacterMatcher, SequenceMatcher sequenceMatcher) {
         this.whiteSpaceCharacterMatcher = whiteSpaceCharacterMatcher;
         this.sequenceMatcher = sequenceMatcher;
-    }
-
-    @Override
-    public Explanation explain() {
-        return sequenceMatcher.explain();
     }
 
     @Override

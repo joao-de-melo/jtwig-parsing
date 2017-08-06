@@ -30,8 +30,8 @@ public class SequenceMatcherRequest {
         return getCurrentCharacter() == EndOfInputCharacterMatcher.EOI;
     }
 
-    public TextNode text(int jump) {
-        return new TextNode(content, offset, offset + jump);
+    public MatchResult text(int jump) {
+        return new MatchResult(offset, offset + jump, new TextNode(content, offset, offset + jump));
     }
 
     public int getOffset() {

@@ -1,6 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
 import org.jtwig.parsing.tree.ListNode;
 import org.jtwig.parsing.tree.Node;
 
@@ -21,10 +20,10 @@ public class OneOrMoreSequenceMatcher implements SequenceMatcher {
         if (!result.matched()) return result;
 
         int offset = 0;
-        List<Node> nodes = new ArrayList<>(Collections.singleton(result.getNode().get()));
+        List<Node> nodes = new ArrayList<>(Collections.singleton(result.getMatchResult().get()));
 
         while (result.matched()) {
-            nodes.add(result.getNode().get());
+            nodes.add(result.getMatchResult().get());
 
             if (result.getJump() == 0) return SequenceMatcherResult.match(offset, new ListNode(nodes));
             offset += result.getJump();
@@ -38,10 +37,5 @@ public class OneOrMoreSequenceMatcher implements SequenceMatcher {
         if (result.isError()) return result;
 
         return SequenceMatcherResult.match(offset, new ListNode(nodes));
-    }
-
-    @Override
-    public Explanation explain() {
-        return new Explanation("one or more", Collections.singletonList(sequenceMatcher.explain()));
     }
 }

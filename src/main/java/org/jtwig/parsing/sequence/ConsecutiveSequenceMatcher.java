@@ -1,6 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
 import org.jtwig.parsing.tree.ListNode;
 import org.jtwig.parsing.tree.Node;
 
@@ -26,22 +25,9 @@ public class ConsecutiveSequenceMatcher implements SequenceMatcher {
             if (!result.matched()) return SequenceMatcherResult.<ListNode>mismatch();
 
             offset += result.getJump();
-            nodes.add(result.getNode().get());
+            nodes.add(result.getMatchResult().get());
         }
 
         return SequenceMatcherResult.match(offset, new ListNode(nodes));
-    }
-
-    @Override
-    public Explanation explain() {
-        List<Explanation> explanations = new ArrayList<>();
-
-        for (SequenceMatcher sequenceMatcher : sequenceMatchers) {
-            explanations.add(sequenceMatcher.explain());
-        }
-        return new Explanation(
-                "sequence",
-                explanations
-        );
     }
 }

@@ -6,11 +6,11 @@ import org.jtwig.parsing.tree.ContentNode;
 import org.jtwig.parsing.tree.Node;
 
 public class Transformations {
-    public static <T> Transformation<T> fromString(Function<String, T> transform) {
+    public static <T> Transformation fromString(Function<String, T> transform) {
         return new FromStringTransformation<>(transform);
     }
 
-    public static <T> Transformation<T> fromContentString(final Function<String, T> transform) {
+    public static <T> Transformation fromContentString(final Function<String, T> transform) {
         return new Transformation<T>() {
             @Override
             public ContentNode<T> transform(Node node) {
@@ -27,7 +27,7 @@ public class Transformations {
         };
     }
 
-    public static <T> Transformation<T> fromContentList(Function<ListTransformationRequest, T> transform) {
+    public static <T> Transformation fromContentList(Function<ListTransformationRequest, T> transform) {
         return new ListContentTransformation<>(transform);
     }
 
@@ -47,8 +47,8 @@ public class Transformations {
     public static <T> Transformation<T> as (Class<T> type) {
         return new Transformation<T>() {
             @Override
-            public ContentNode<T> transform(Node node) {
-                return (ContentNode<T>) node;
+            public ContentNode<T> transform(TransformationRequest node) {
+                return (ContentNode<T>) node.getNode();
             }
         };
     }

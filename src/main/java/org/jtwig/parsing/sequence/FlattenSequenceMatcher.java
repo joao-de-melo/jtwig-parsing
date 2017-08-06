@@ -1,7 +1,5 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
-
 public class FlattenSequenceMatcher implements SequenceMatcher {
     private final SequenceMatcher sequenceMatcher;
 
@@ -18,10 +16,5 @@ public class FlattenSequenceMatcher implements SequenceMatcher {
         } else {
             return result;
         }
-    }
-
-    @Override
-    public Explanation explain() {
-        return sequenceMatcher.explain();
     }
 }

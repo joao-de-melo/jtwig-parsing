@@ -1,11 +1,9 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.explain.Explanation;
 import org.jtwig.parsing.tree.ListNode;
 import org.jtwig.parsing.tree.Node;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ZeroOrMoreSequenceMatcher implements SequenceMatcher {
@@ -22,7 +20,7 @@ public class ZeroOrMoreSequenceMatcher implements SequenceMatcher {
         List<Node> nodes = new ArrayList<>();
 
         while (result.matched()) {
-            nodes.add(result.getNode().get());
+            nodes.add(result.getMatchResult().get());
             if (result.getJump() == 0) return SequenceMatcherResult.match(jump, new ListNode(nodes));
 
             jump += result.getJump();
@@ -35,10 +33,5 @@ public class ZeroOrMoreSequenceMatcher implements SequenceMatcher {
         if (result.isError()) return result;
 
         return SequenceMatcherResult.match(jump, new ListNode(nodes));
-    }
-
-    @Override
-    public Explanation explain() {
-        return new Explanation("zero or more", Collections.singletonList(sequenceMatcher.explain()));
     }
 }

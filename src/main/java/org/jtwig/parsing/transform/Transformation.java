@@ -1,8 +1,7 @@
 package org.jtwig.parsing.transform;
 
-import org.jtwig.parsing.tree.ContentNode;
-import org.jtwig.parsing.tree.Node;
+import org.jtwig.parsing.sequence.MatchResult;
 
-public interface Transformation<T> {
-    ContentNode<T> transform (Node node);
+public interface Transformation {
+    MatchResult transform (MatchResult request);
 }

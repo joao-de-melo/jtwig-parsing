@@ -2,29 +2,28 @@ package org.jtwig.parsing.sequence;
 
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.jtwig.parsing.tree.Node;
 
 public class SequenceMatcherResult {
     public static SequenceMatcherResult mismatch () {
-        return new SequenceMatcherResult(SequenceMatcherResultType.MISMATCH, 0, Optional.<Node>absent());
+        return new SequenceMatcherResult(SequenceMatcherResultType.MISMATCH, 0, Optional.<MatchResult>absent());
     }
 
-    public static SequenceMatcherResult match (int jump, Node node) {
-        return new SequenceMatcherResult(SequenceMatcherResultType.MATCHED, jump, Optional.of(node));
+    public static SequenceMatcherResult match (int jump, MatchResult result) {
+        return new SequenceMatcherResult(SequenceMatcherResultType.MATCHED, jump, Optional.of(result));
     }
 
     public static SequenceMatcherResult error(SequenceMatcherRequest sequenceMatcherRequest) {
-        return new SequenceMatcherResult(SequenceMatcherResultType.ERROR, sequenceMatcherRequest.getOffset(), Optional.<Node>absent());
+        return new SequenceMatcherResult(SequenceMatcherResultType.ERROR, sequenceMatcherRequest.getOffset(), Optional.<MatchResult>absent());
     }
 
     private final SequenceMatcherResultType type;
     private final int jump;
-    private final Optional<Node> node;
+    private final Optional<MatchResult> match;
 
-    public SequenceMatcherResult(SequenceMatcherResultType type, int jump, Optional<Node> node) {
+    public SequenceMatcherResult(SequenceMatcherResultType type, int jump, Optional<MatchResult> match) {
         this.type = type;
         this.jump = jump;
-        this.node = node;
+        this.match = match;
     }
 
     public boolean matched() {
@@ -51,11 +50,11 @@ public class SequenceMatcherResult {
         return type == SequenceMatcherResultType.ERROR;
     }
 
-    public Optional<Node> getNode() {
-        return node;
+    public Optional<MatchResult> getMatchResult() {
+        return match;
     }
 
     public SequenceMatcherResult withJump(int jump) {
-        return new SequenceMatcherResult(type, jump, node);
+        return new SequenceMatcherResult(type, jump, match);
     }
 }

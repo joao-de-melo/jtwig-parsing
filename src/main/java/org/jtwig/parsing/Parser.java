@@ -1,10 +1,10 @@
 package org.jtwig.parsing;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jtwig.parsing.sequence.MatchResult;
 import org.jtwig.parsing.sequence.SequenceMatcher;
 import org.jtwig.parsing.sequence.SequenceMatcherRequest;
 import org.jtwig.parsing.sequence.SequenceMatcherResult;
-import org.jtwig.parsing.transform.Transformation;
 
 public class Parser {
     private final SequenceMatcher matcher;
@@ -36,8 +36,8 @@ public class Parser {
             return result.matched();
         }
 
-        public <T> T output (Transformation<T> transformation) {
-            return transformation.transform(result.getNode().get()).getContent();
+        public MatchResult output () {
+            return result.getMatchResult().get();
         }
 
         @Override

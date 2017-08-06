@@ -16,9 +16,9 @@ public class ListContentTransformation<T> implements Transformation<T> {
     }
 
     @Override
-    public ContentNode<T> transform(Node node) {
-        if (node instanceof ListNode) {
-            List<Node> nodes = ((ListNode) node).getNodes();
+    public ContentNode<T> transform(TransformationRequest request) {
+        if (request.getNode() instanceof ListNode) {
+            List<Node> nodes = ((ListNode) request.getNode()).getNodes();
             List<Object> inputs = new ArrayList<>();
 
             for (Node subNode : nodes) {
