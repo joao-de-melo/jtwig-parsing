@@ -1,7 +1,8 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.tree.ListNode;
-import org.jtwig.parsing.tree.Node;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.tree.ListNode;
+import org.jtwig.parsing.model.tree.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +16,19 @@ public class ConsecutiveSequenceMatcher implements SequenceMatcher {
 
     @Override
     public SequenceMatcherResult matches(SequenceMatcherRequest sequenceMatcherRequest) {
-        int offset = 0;
+        int jump = 0;
         List<Node> nodes = new ArrayList<>();
 
         for (SequenceMatcher sequenceMatcher : sequenceMatchers) {
-            SequenceMatcherResult result = sequenceMatcher.matches(sequenceMatcherRequest.incrementOffset(offset));
+            SequenceMatcherResult result = sequenceMatcher.matches(sequenceMatcherRequest.incrementOffset(jump));
 
             if (result.isError()) return result;
             if (!result.matched()) return SequenceMatcherResult.<ListNode>mismatch();
 
-            offset += result.getJump();
-            nodes.add(result.getMatchResult().get());
+            jump += result.getJump();
+            nodes.add(result.getMatchResult().getNode());
         }
 
-        return SequenceMatcherResult.match(offset, new ListNode(nodes));
+        return SequenceMatcherResult.match(jump, new MatchResult(sequenceMatcherRequest.range(jump), new ListNode(nodes)));
     }
 }

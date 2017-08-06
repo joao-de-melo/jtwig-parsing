@@ -2,11 +2,11 @@ package org.jtwig.parsing.sequence;
 
 import org.jtwig.parsing.transform.Transformation;
 
-public class TransformSequenceMatcher implements SequenceMatcher {
+public class TransformSequenceMatcher<T> implements SequenceMatcher {
     private final SequenceMatcher sequenceMatcher;
-    private final Transformation transformation;
+    private final Transformation<T> transformation;
 
-    public TransformSequenceMatcher(SequenceMatcher sequenceMatcher, Transformation transformation) {
+    public TransformSequenceMatcher(SequenceMatcher sequenceMatcher, Transformation<T> transformation) {
         this.sequenceMatcher = sequenceMatcher;
         this.transformation = transformation;
     }
@@ -16,7 +16,7 @@ public class TransformSequenceMatcher implements SequenceMatcher {
         SequenceMatcherResult result = sequenceMatcher.matches(sequenceMatcherRequest);
 
         if (result.matched()) {
-            return SequenceMatcherResult.match(result.getJump(), transformation.transform(result.getMatchResult().get()));
+            return result.withNode(transformation.transform(result.getMatchResult()));
         }
 
         return result;

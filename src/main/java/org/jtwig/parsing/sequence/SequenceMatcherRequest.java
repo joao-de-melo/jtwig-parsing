@@ -1,7 +1,9 @@
 package org.jtwig.parsing.sequence;
 
 import org.jtwig.parsing.character.EndOfInputCharacterMatcher;
-import org.jtwig.parsing.tree.TextNode;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.Range;
+import org.jtwig.parsing.model.tree.TextNode;
 
 public class SequenceMatcherRequest {
     private final char[] content;
@@ -31,10 +33,14 @@ public class SequenceMatcherRequest {
     }
 
     public MatchResult text(int jump) {
-        return new MatchResult(offset, offset + jump, new TextNode(content, offset, offset + jump));
+        return new MatchResult(range(jump), new TextNode(content, offset, offset + jump));
     }
 
     public int getOffset() {
         return offset;
+    }
+
+    public Range range (int jump) {
+        return Range.range(offset, jump);
     }
 }

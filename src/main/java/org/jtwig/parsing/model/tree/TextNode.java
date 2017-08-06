@@ -1,4 +1,4 @@
-package org.jtwig.parsing.tree;
+package org.jtwig.parsing.model.tree;
 
 public class TextNode extends Node {
     private final char[] content;

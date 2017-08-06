@@ -1,9 +1,10 @@
 package org.jtwig.parsing.transform;
 
 import com.google.common.base.Function;
-import org.jtwig.parsing.tree.ContentNode;
-import org.jtwig.parsing.tree.ListNode;
-import org.jtwig.parsing.tree.Node;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.tree.ContentNode;
+import org.jtwig.parsing.model.tree.ListNode;
+import org.jtwig.parsing.model.tree.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ListContentTransformation<T> implements Transformation<T> {
     }
 
     @Override
-    public ContentNode<T> transform(TransformationRequest request) {
+    public ContentNode<T> transform(MatchResult request) {
         if (request.getNode() instanceof ListNode) {
             List<Node> nodes = ((ListNode) request.getNode()).getNodes();
             List<Object> inputs = new ArrayList<>();
@@ -27,9 +28,9 @@ public class ListContentTransformation<T> implements Transformation<T> {
                 }
             }
 
-            return new ContentNode<>(function.apply(new ListTransformationRequest(inputs)));
+            return new ContentNode<>(function.apply(new ListTransformationRequest(request, inputs)));
         } else {
-            throw new IllegalArgumentException(String.format("Cannot transform when node is of type %s", node.getClass()));
+            throw new IllegalArgumentException(String.format("Cannot transform when node is of type %s", request.getNode().getClass()));
         }
     }
 }

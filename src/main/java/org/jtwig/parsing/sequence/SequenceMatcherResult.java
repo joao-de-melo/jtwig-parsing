@@ -2,6 +2,8 @@ package org.jtwig.parsing.sequence;
 
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.tree.Node;
 
 public class SequenceMatcherResult {
     public static SequenceMatcherResult mismatch () {
@@ -50,11 +52,15 @@ public class SequenceMatcherResult {
         return type == SequenceMatcherResultType.ERROR;
     }
 
-    public Optional<MatchResult> getMatchResult() {
-        return match;
+    public MatchResult getMatchResult() {
+        return match.get();
     }
 
     public SequenceMatcherResult withJump(int jump) {
         return new SequenceMatcherResult(type, jump, match);
+    }
+
+    public SequenceMatcherResult withNode(Node node) {
+        return new SequenceMatcherResult(type, jump, Optional.of(match.get().with(node)));
     }
 }

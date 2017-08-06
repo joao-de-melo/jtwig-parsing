@@ -1,26 +1,30 @@
 package org.jtwig.parsing;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.jtwig.parsing.sequence.MatchResult;
-import org.jtwig.parsing.sequence.SequenceMatcher;
+import org.jtwig.parsing.model.tree.ContentNode;
 import org.jtwig.parsing.sequence.SequenceMatcherRequest;
 import org.jtwig.parsing.sequence.SequenceMatcherResult;
+import org.jtwig.parsing.sequence.TransformSequenceMatcher;
 
-public class Parser {
-    private final SequenceMatcher matcher;
+public class Parser<T> {
+    private final Class<T> type;
+    private final TransformSequenceMatcher<T> matcher;
 
-    public Parser(SequenceMatcher matcher) {
+    public Parser(Class<T> type, TransformSequenceMatcher<T> matcher) {
+        this.type = type;
         this.matcher = matcher;
     }
 
-    public Result parse (String input) {
-        return new Result(matcher.matches(new SequenceMatcherRequest(input.toCharArray(), 0)));
+    public Result<T> parse (String input) {
+        return new Result<>(type, matcher.matches(new SequenceMatcherRequest(input.toCharArray(), 0)));
     }
 
-    public static class Result {
+    public static class Result<T> {
+        private final Class<T> type;
         private final SequenceMatcherResult result;
 
-        public Result(SequenceMatcherResult result) {
+        public Result(Class<T> type, SequenceMatcherResult result) {
+            this.type = type;
             this.result = result;
         }
 
@@ -36,8 +40,8 @@ public class Parser {
             return result.matched();
         }
 
-        public MatchResult output () {
-            return result.getMatchResult().get();
+        public  T output () {
+            return type.cast(((ContentNode) result.getMatchResult().getNode()).getContent());
         }
 
         @Override

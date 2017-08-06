@@ -1,4 +1,4 @@
-package org.jtwig.parsing.tree;
+package org.jtwig.parsing.model.tree;
 
 import java.util.List;
 

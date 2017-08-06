@@ -1,7 +1,9 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.tree.ListNode;
-import org.jtwig.parsing.tree.Node;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.Range;
+import org.jtwig.parsing.model.tree.ListNode;
+import org.jtwig.parsing.model.tree.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +22,24 @@ public class ZeroOrMoreSequenceMatcher implements SequenceMatcher {
         List<Node> nodes = new ArrayList<>();
 
         while (result.matched()) {
-            nodes.add(result.getMatchResult().get());
-            if (result.getJump() == 0) return SequenceMatcherResult.match(jump, new ListNode(nodes));
+            nodes.add(result.getMatchResult().getNode());
+            if (result.getJump() == 0)
+                return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
 
             jump += result.getJump();
             SequenceMatcherRequest newRequest = sequenceMatcherRequest.incrementOffset(jump);
 
-            if (newRequest.isEndOfInput()) return SequenceMatcherResult.match(jump, new ListNode(nodes));
+            if (newRequest.isEndOfInput())
+                return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
             result = sequenceMatcher.matches(newRequest);
         }
 
         if (result.isError()) return result;
 
-        return SequenceMatcherResult.match(jump, new ListNode(nodes));
+        return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
+    }
+
+    private MatchResult result(SequenceMatcherRequest sequenceMatcherRequest, int jump, List<Node> nodes) {
+        return new MatchResult(sequenceMatcherRequest.range(jump), new ListNode(nodes));
     }
 }

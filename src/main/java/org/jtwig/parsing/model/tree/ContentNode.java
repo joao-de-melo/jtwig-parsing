@@ -1,4 +1,4 @@
-package org.jtwig.parsing.tree;
+package org.jtwig.parsing.model.tree;
 
 public class ContentNode<T> extends Node {
     private final T content;

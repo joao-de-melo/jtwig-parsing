@@ -1,10 +1,8 @@
 package org.jtwig.parsing.sequence;
 
-import com.google.common.base.Function;
 import org.jtwig.parsing.character.CharacterMatcher;
 import org.jtwig.parsing.character.WhiteSpaceCharacterMatcher;
 import org.jtwig.parsing.transform.Transformation;
-import org.jtwig.parsing.transform.Transformations;
 
 import java.util.List;
 
@@ -31,6 +29,10 @@ public class SequenceMatchers {
         return new DisjunctiveSequenceMatcher(others);
     }
 
+    public static MandatorySequenceMatcher mandatory (SequenceMatcher sequenceMatcher) {
+        return new MandatorySequenceMatcher(sequenceMatcher);
+    }
+
     public static ZeroOrMoreSequenceMatcher zeroOrMore(SequenceMatcher sequenceMatcher) {
         return new ZeroOrMoreSequenceMatcher(sequenceMatcher);
     }
@@ -51,16 +53,12 @@ public class SequenceMatchers {
         return new NotSequenceMatcher(sequenceMatcher);
     }
 
-    public static <T> TransformSequenceMatcher transform (SequenceMatcher sequenceMatcher, Transformation transform) {
-        return new TransformSequenceMatcher(sequenceMatcher, transform);
+    public static <T> TransformSequenceMatcher<T> transform (SequenceMatcher sequenceMatcher, Transformation<T> transform) {
+        return new TransformSequenceMatcher<>(sequenceMatcher, transform);
     }
 
     public static FlattenSequenceMatcher flatten (SequenceMatcher sequenceMatcher) {
         return new FlattenSequenceMatcher(sequenceMatcher);
-    }
-
-    public static FlattenListSequenceMatcher flattenList (SequenceMatcher sequenceMatcher,  int depth) {
-        return new FlattenListSequenceMatcher(sequenceMatcher, depth);
     }
 
     public static SequenceMatcher whitespaces () {
@@ -73,16 +71,6 @@ public class SequenceMatchers {
 
     public static OptionalSequenceMatcher optional (SequenceMatcher matcher) {
         return new OptionalSequenceMatcher(matcher);
-    }
-
-    public static SequenceMatcher trim (SequenceMatcher delegate) {
-        return transform(flatten(delegate), Transformations.fromString(new Function<String, String>(){
-            @Override
-            public String apply(String input) {
-                if (input == null) return null;
-                else return input.trim();
-            }
-        }));
     }
 
     public static OneOrMoreSequenceMatcher oneOrMore(SequenceMatcher delegate) {

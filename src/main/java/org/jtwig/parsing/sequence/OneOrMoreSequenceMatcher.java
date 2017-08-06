@@ -1,7 +1,8 @@
 package org.jtwig.parsing.sequence;
 
-import org.jtwig.parsing.tree.ListNode;
-import org.jtwig.parsing.tree.Node;
+import org.jtwig.parsing.model.MatchResult;
+import org.jtwig.parsing.model.tree.ListNode;
+import org.jtwig.parsing.model.tree.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,23 +20,27 @@ public class OneOrMoreSequenceMatcher implements SequenceMatcher {
         SequenceMatcherResult result = sequenceMatcher.matches(sequenceMatcherRequest);
         if (!result.matched()) return result;
 
-        int offset = 0;
-        List<Node> nodes = new ArrayList<>(Collections.singleton(result.getMatchResult().get()));
+        int jump = 0;
+        List<Node> nodes = new ArrayList<>(Collections.singleton(result.getMatchResult().getNode()));
 
         while (result.matched()) {
-            nodes.add(result.getMatchResult().get());
+            nodes.add(result.getMatchResult().getNode());
 
-            if (result.getJump() == 0) return SequenceMatcherResult.match(offset, new ListNode(nodes));
-            offset += result.getJump();
+            if (result.getJump() == 0) return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
+            jump += result.getJump();
 
-            SequenceMatcherRequest newRequest = sequenceMatcherRequest.incrementOffset(offset);
-            if (newRequest.isEndOfInput()) return SequenceMatcherResult.match(offset, new ListNode(nodes));
+            SequenceMatcherRequest newRequest = sequenceMatcherRequest.incrementOffset(jump);
+            if (newRequest.isEndOfInput()) return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
 
             result = sequenceMatcher.matches(newRequest);
         }
 
         if (result.isError()) return result;
 
-        return SequenceMatcherResult.match(offset, new ListNode(nodes));
+        return SequenceMatcherResult.match(jump, result(sequenceMatcherRequest, jump, nodes));
+    }
+
+    private MatchResult result(SequenceMatcherRequest sequenceMatcherRequest, int jump, List<Node> nodes) {
+        return new MatchResult(sequenceMatcherRequest.range(jump), new ListNode(nodes));
     }
 }
