@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListContentTransformation<T> implements Transformation<T> {
-    private final Function<ListTransformationRequest, T> function;
+    private final Function<Request, T> function;
 
-    public ListContentTransformation(Function<ListTransformationRequest, T> function) {
+    public ListContentTransformation(Function<Request, T> function) {
         this.function = function;
     }
 
@@ -28,9 +28,37 @@ public class ListContentTransformation<T> implements Transformation<T> {
                 }
             }
 
-            return new ContentNode<>(function.apply(new ListTransformationRequest(request, inputs)));
+            return new ContentNode<>(function.apply(new Request(request, inputs)));
         } else {
             throw new IllegalArgumentException(String.format("Cannot transform when node is of type %s", request.getNode().getClass()));
         }
     }
+
+    public static class Request {
+        private final MatchResult matchResult;
+        private final List<Object> values;
+
+        public Request(MatchResult matchResult, List<Object> values) {
+            this.matchResult = matchResult;
+            this.values = values;
+        }
+
+        public <T> T get (int index, Class<T> type) {
+            return type.cast(values.get(index));
+        }
+
+        public int size () {
+            return values.size();
+        }
+
+        public List<Object> getValues() {
+            return values;
+        }
+
+        public MatchResult getMatchResult() {
+            return matchResult;
+        }
+    }
+
 }
+

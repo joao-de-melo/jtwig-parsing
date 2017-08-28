@@ -29,12 +29,16 @@ public class SequenceMatchers {
         return new DisjunctiveSequenceMatcher(others);
     }
 
-    public static MandatorySequenceMatcher mandatory (SequenceMatcher sequenceMatcher) {
+    public static MandatorySequenceMatcher mandatory(SequenceMatcher sequenceMatcher) {
         return new MandatorySequenceMatcher(sequenceMatcher);
     }
 
     public static ZeroOrMoreSequenceMatcher zeroOrMore(SequenceMatcher sequenceMatcher) {
         return new ZeroOrMoreSequenceMatcher(sequenceMatcher);
+    }
+
+    public static TestSequenceMatcher test (SequenceMatcher sequenceMatcher) {
+        return new TestSequenceMatcher(sequenceMatcher);
     }
 
     public static UntilSequenceMatcher until (SequenceMatcher sequenceMatcher) {
@@ -75,5 +79,13 @@ public class SequenceMatchers {
 
     public static OneOrMoreSequenceMatcher oneOrMore(SequenceMatcher delegate) {
         return new OneOrMoreSequenceMatcher(delegate);
+    }
+
+    public static MergeSequenceMatcher merge (SequenceMatcher... list) {
+        return new MergeSequenceMatcher(asList(list));
+    }
+
+    public static MergeSequenceMatcher merge (List<SequenceMatcher> list) {
+        return new MergeSequenceMatcher(list);
     }
 }

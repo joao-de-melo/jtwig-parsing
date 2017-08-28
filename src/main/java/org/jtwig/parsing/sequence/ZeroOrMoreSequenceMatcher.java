@@ -1,7 +1,6 @@
 package org.jtwig.parsing.sequence;
 
 import org.jtwig.parsing.model.MatchResult;
-import org.jtwig.parsing.model.Range;
 import org.jtwig.parsing.model.tree.ListNode;
 import org.jtwig.parsing.model.tree.Node;
 

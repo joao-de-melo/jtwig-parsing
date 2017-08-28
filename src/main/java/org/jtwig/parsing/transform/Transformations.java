@@ -26,7 +26,7 @@ public class Transformations {
         };
     }
 
-    public static <T> Transformation<T> fromContentList(Function<ListTransformationRequest, T> transform) {
+    public static <T> Transformation<T> fromContentList(Function<ListContentTransformation.Request, T> transform) {
         return new ListContentTransformation<>(transform);
     }
 
@@ -44,6 +44,19 @@ public class Transformations {
             @Override
             public ContentNode<T> transform(MatchResult matchResult) {
                 return new ContentNode<>(value);
+            }
+        };
+    }
+
+    public static <I, T> Transformation<T> from (Function<FromContentTransformation.Request<I>, T> function) {
+        return new FromContentTransformation<>(function);
+    }
+
+    public static <T> Transformation<T> identity () {
+        return new Transformation<T>() {
+            @Override
+            public ContentNode<T> transform(MatchResult matchResult) {
+                return (ContentNode<T>) matchResult.getNode();
             }
         };
     }
